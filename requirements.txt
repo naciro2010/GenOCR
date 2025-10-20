@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+jinja2
+pymupdf
+camelot-py[cv]
+ocrmypdf
+pandas
+slowapi
+python-multipart
+htmx.py

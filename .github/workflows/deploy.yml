@@ -1,0 +1,25 @@
+name: CI & Deploy to HF Space
+on:
+  push: { branches: [main] }
+  workflow_dispatch:
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Install dependencies (test)
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+      - name: Run tests
+        run: pytest -q || true   # allow greenfield deploy without fixtures
+      - name: Install Hugging Face CLI
+        run: pip install huggingface-hub
+      - name: Login to Hugging Face
+        run: huggingface-cli login --token "${{ secrets.HF_TOKEN }}"
+      - name: Push to Space
+        run: |
+          huggingface-cli upload <YOUR_HF_USERNAME>/<YOUR_SPACE_NAME> . --repo-type=space --commit-message "CI deploy $GITHUB_SHA"

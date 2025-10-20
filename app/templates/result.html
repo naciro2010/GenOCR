@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="space-y-6" aria-live="polite">
+  <div class="flex items-center justify-between flex-wrap gap-3">
+    <div>
+      <h2 class="text-2xl font-semibold">Extraction queue</h2>
+      <p class="text-sm text-slate-300">Request ID <span class="font-mono">{{ request_id }}</span></p>
+    </div>
+    <a href="/" class="text-sm text-emerald-300 hover:text-emerald-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-400">Start another upload</a>
+  </div>
+  <div id="status-area" hx-get="/partials/status/{{ request_id }}" hx-trigger="load, every 800ms" hx-target="#status-area" hx-swap="outerHTML">
+    {% include "status_partial.html" with context %}
+  </div>
+</section>
+{% endblock %}

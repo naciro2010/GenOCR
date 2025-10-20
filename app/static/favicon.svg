@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="pdf2tables icon">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="12" fill="#0f172a" />
+  <path d="M16 18h32v28H16z" fill="url(#grad)" opacity="0.85" />
+  <path d="M20 24h8v4h-8zm0 8h8v4h-8zm0 8h8v4h-8zm16-16h8v4h-8zm0 8h8v4h-8zm0 8h8v4h-8z" fill="#0f172a" />
+</svg>

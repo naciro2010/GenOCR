@@ -1,0 +1,7 @@
+title: pdf2tables-saas
+sdk: docker
+emoji: 📋
+colorFrom: indigo
+colorTo: emerald
+pinned: false
+description: "Upload PDFs and images to extract tables as HTML and JSON."
