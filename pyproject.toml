@@ -1,0 +1,21 @@
+[project]
+name = "pdf2tables-saas"
+version = "0.1.0"
+description = "Server-rendered SaaS for extracting tables from PDFs and images."
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "jinja2",
+    "pymupdf",
+    "camelot-py[cv]",
+    "ocrmypdf",
+    "pandas",
+    "slowapi",
+    "python-multipart",
+    "htmx.py",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"

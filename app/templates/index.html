@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="space-y-8">
+  <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-8 shadow-lg">
+    <h2 class="text-2xl font-semibold mb-4">Upload documents</h2>
+    <p class="text-sm text-slate-300 mb-6">Drop up to 10 files (PDF, PNG, JPG). Maximum size {{ max_upload_mb }} MB each. Tables are processed in-memory and deleted within an hour.</p>
+    <form action="/upload" method="post" enctype="multipart/form-data" class="space-y-6" aria-label="Upload form">
+      <div>
+        <label for="files" class="block text-sm font-medium text-slate-200 mb-2">Select documents</label>
+        <input id="files" name="files" type="file" accept=".pdf,.png,.jpg,.jpeg" multiple required class="block w-full rounded border border-slate-600 bg-slate-900/80 px-4 py-3 text-sm text-slate-100 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+      </div>
+      <button type="submit" class="inline-flex items-center gap-2 rounded-md bg-emerald-500 px-5 py-3 text-sm font-semibold text-slate-900 hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400">
+        <span>Start extraction</span>
+      </button>
+    </form>
+  </div>
+  <div class="grid gap-6 md:grid-cols-2" aria-label="Service details">
+    <article class="rounded-xl border border-slate-700 bg-slate-800/40 p-6">
+      <h3 class="text-lg font-semibold mb-2">How it works</h3>
+      <ol class="list-decimal list-inside space-y-1 text-sm text-slate-300">
+        <li>Camelot lattice mode tries to read digital tables.</li>
+        <li>Scanned pages go through OCRmyPDF (rotate, deskew, clean).</li>
+        <li>Results render as accessible HTML with downloadable JSON.</li>
+      </ol>
+    </article>
+    <article class="rounded-xl border border-slate-700 bg-slate-800/40 p-6">
+      <h3 class="text-lg font-semibold mb-2">Privacy & limits</h3>
+      <ul class="list-disc list-inside space-y-1 text-sm text-slate-300">
+        <li>Files live in temp storage for at most 60 minutes.</li>
+        <li>No analytics, only structured logs for operations.</li>
+        <li>Use a secure network; avoid sensitive documents.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+{% endblock %}
