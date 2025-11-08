@@ -1,7 +1,19 @@
-title: pdf2tables-saas
+title: GenOCR - PDF Tables Extractor
 sdk: docker
-emoji: 📋
-colorFrom: indigo
-colorTo: emerald
+emoji: 📊
+colorFrom: blue
+colorTo: green
 pinned: false
-description: "Upload PDFs and images to extract tables as HTML and JSON."
+license: mit
+short_description: "Extract tables from PDFs and images with OCR support"
+description: |
+  GenOCR is a production-ready application for extracting tables from PDFs and images.
+
+  Features:
+  - Intelligent table extraction from native and scanned PDFs
+  - Automatic OCR with Tesseract for scanned documents
+  - Multi-file upload with progress tracking
+  - Export to HTML and JSON formats
+  - Built with FastAPI, HTMX, and Docker
+
+  Upload your PDFs or images and get structured table data instantly!

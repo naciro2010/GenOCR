@@ -1,7 +1,10 @@
 [project]
-name = "pdf2tables-saas"
-version = "0.1.0"
-description = "Server-rendered SaaS for extracting tables from PDFs and images."
+name = "genocr"
+version = "1.0.0"
+description = "Production-ready SaaS for extracting tables from PDFs and images with OCR support"
+authors = [{name = "naciro2010"}]
+readme = "README.md"
+license = {text = "MIT"}
 requires-python = ">=3.11"
 dependencies = [
     "fastapi",
@@ -13,9 +16,30 @@ dependencies = [
     "pandas",
     "slowapi",
     "python-multipart",
-    "htmx.py",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "httpx",
+    "black",
+    "ruff",
 ]
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+asyncio_mode = "auto"

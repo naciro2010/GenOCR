@@ -1,11 +1,16 @@
-# pdf2tables-saas
+# GenOCR - PDF to Tables Extractor
 
-[![CI](https://github.com/your-org/pdf2tables-saas/actions/workflows/deploy.yml/badge.svg)](https://github.com/your-org/pdf2tables-saas/actions/workflows/deploy.yml)
-[![Hugging Face Space](https://img.shields.io/badge/Spaces-pdf2tables--saas-blue?logo=huggingface)](https://huggingface.co/spaces/your-username/pdf2tables-saas)
+[![CI](https://github.com/naciro2010/GenOCR/actions/workflows/deploy.yml/badge.svg)](https://github.com/naciro2010/GenOCR/actions/workflows/deploy.yml)
 
-Production-ready SaaS starter for extracting tables from PDFs or images with a privacy-aware FastAPI backend, HTMX-powered UI, and a Docker deployment on Hugging Face Spaces.
+**GenOCR** est une application SaaS production-ready pour extraire des tableaux depuis des PDFs ou images, avec un backend FastAPI sécurisé, une interface HTMX moderne, et un déploiement Docker sur Hugging Face Spaces.
 
-> Demo animation placeholder — add your own GIF at `docs/demo.gif` if desired.
+🚀 **Fonctionnalités principales:**
+- Extraction intelligente de tableaux depuis PDFs (natifs ou scannés)
+- OCR automatique avec Tesseract pour documents scannés
+- Interface web moderne avec upload multi-fichiers
+- Export HTML et JSON des tableaux extraits
+- Sécurité renforcée et rate limiting
+- Déploiement facile sur Hugging Face Spaces
 
 ## Architecture
 
@@ -88,12 +93,27 @@ docker run --rm -e PORT=7860 -p 7860:7860 pdf2tables-saas
 
 The container listens on `$PORT` (default 7860) and exposes `/healthz` for health checks.
 
-### Hugging Face Space
+### Déploiement sur Hugging Face Space
 
-1. Create a **Docker Space** at <https://huggingface.co/spaces>.
-2. Add a `HF_TOKEN` secret to the GitHub repository.
-3. Update `.github/workflows/deploy.yml` with your `<YOUR_HF_USERNAME>/<YOUR_SPACE_NAME>`.
-4. Push to `main` — CI runs tests and mirrors the repo to the Space via `huggingface-cli upload`.
+GenOCR peut être déployé gratuitement sur Hugging Face Spaces:
+
+1. Créez un **Docker Space** sur <https://huggingface.co/spaces>
+2. Nommez votre Space (ex: `votre-username/genocr`)
+3. Ajoutez un secret `HF_TOKEN` dans les settings GitHub du repo
+4. Mettez à jour `.github/workflows/deploy.yml` avec votre username/space-name
+5. Pushez sur `main` — le CI déploiera automatiquement
+
+**Alternative: Déploiement manuel**
+```bash
+# Installez le CLI Hugging Face
+pip install huggingface-hub
+
+# Login
+huggingface-cli login
+
+# Upload vers votre Space
+huggingface-cli upload votre-username/genocr . --repo-type=space
+```
 
 ## Configuration
 
@@ -118,13 +138,23 @@ The container listens on `$PORT` (default 7860) and exposes `/healthz` for healt
 - Encrypted or password-protected PDFs are rejected by upstream libraries.
 - Camelot requires Ghostscript/Poppler; install per Dockerfile if running elsewhere.
 
-## Extending
+## Déploiements gratuits recommandés
 
-- Fork the repo and update `make_pr` secrets for custom deployments.
-- Enable deep-learning extractors by overriding the placeholder in `app/pipeline/__init__.py`.
-- Add persistent storage or background workers by swapping the in-memory registry for Redis.
+GenOCR peut être déployé gratuitement sur plusieurs plateformes:
 
-## Troubleshooting
+1. **Hugging Face Spaces** (Recommandé) - 16GB RAM, GPU optionnel
+2. **Render.com** - Free tier avec 512MB RAM
+3. **Railway.app** - $5 de crédit gratuit/mois
+4. **Fly.io** - Free tier généreux
+
+## Extension et personnalisation
+
+- Forkez le repo pour des déploiements personnalisés
+- Activez l'extraction deep-learning en modifiant `app/pipeline/__init__.py`
+- Ajoutez du stockage persistant avec Redis ou PostgreSQL
+- Intégrez d'autres modèles OCR (EasyOCR, PaddleOCR, etc.)
+
+## Dépannage
 
 | Issue | Fix |
 | --- | --- |
