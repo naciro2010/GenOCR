@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: genocr
+    runtime: docker
+    plan: free
+    healthCheckPath: /healthz
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: MAX_CONTENT_LENGTH
+        value: 26214400
+      - key: FORCE_HTTPS
+        value: true

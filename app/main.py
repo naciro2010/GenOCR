@@ -27,6 +27,8 @@ from starlette.responses import PlainTextResponse
 from . import views
 from . import api
 from .state import RequestRegistry
+from .limits import limiter
+from slowapi.middleware import SlowAPIAsyncMiddleware as SlowAPIMiddleware
 
 logger = logging.getLogger("pdf2tables")
 request_id_ctx: ContextVar[str | None] = ContextVar("request_id", default=None)
