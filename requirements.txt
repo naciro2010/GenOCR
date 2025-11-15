@@ -4,6 +4,8 @@ jinja2
 pymupdf
 camelot-py[cv]
 ocrmypdf
+paddleocr
+paddlepaddle
 pandas
 slowapi
 python-multipart

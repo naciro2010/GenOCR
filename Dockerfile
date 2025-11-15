@@ -2,12 +2,14 @@
 FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    tesseract-ocr ghostscript poppler-utils curl fonts-dejavu && \
+    tesseract-ocr ghostscript poppler-utils curl fonts-dejavu \
+    libgomp1 libglib2.0-0 libsm6 libxext6 libxrender-dev libgl1-mesa-glx && \
     rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY pyproject.toml requirements.txt* /app/
 RUN pip install --upgrade pip && \
-    pip install fastapi uvicorn[standard] jinja2 pymupdf camelot-py[cv] ocrmypdf pandas slowapi python-multipart
+    pip install fastapi uvicorn[standard] jinja2 pymupdf camelot-py[cv] ocrmypdf \
+    paddleocr paddlepaddle pandas slowapi python-multipart
 COPY app /app/app
 COPY templates /app/app/templates
 COPY static /app/app/static
