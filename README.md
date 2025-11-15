@@ -28,23 +28,25 @@
 └────────────────────────────────────────────────────────────┘
             │                                │
             ▼                                ▼
-   OCRmyPDF + Camelot                 Temp storage cleanup
+   PaddleOCR/Tesseract + Camelot      Temp storage cleanup
 ```
 
 ### Extraction pipeline
 
 1. **Heuristic** — PyMuPDF estimates whether the PDF is born-digital or scanned.
-2. **OCR pass** — When needed, OCRmyPDF runs rotate/deskew/clean to rebuild searchable PDF.
+2. **OCR pass** — When needed, PaddleOCR (preferred) or Tesseract (fallback) processes scanned documents to create searchable PDFs.
 3. **Table parsing** — Camelot attempts `lattice` first, falls back to `stream` if no tables.
 4. **Rendering** — Tables are rendered as responsive HTML with optional JSON download.
 5. **Observability** — Structured JSON logs capture request IDs, timings, and stage outcomes.
 
-A `USE_DEEP_TABLES=true` environment flag exposes a hook for plugging in neural table models later without forcing heavy dependencies today.
+Environment flags:
+- `USE_PADDLE_OCR=true` enables PaddleOCR (default, more accurate)
+- `USE_DEEP_TABLES=true` exposes a hook for neural table models
 
 ## Features
 
 - Multi-file upload with progress, cancellation, and accessible status cards.
-- Automatic OCR with Tesseract/Ghostscript for scanned documents.
+- **Dual OCR engines**: PaddleOCR (high accuracy, multi-language) with automatic fallback to Tesseract.
 - Born-digital PDF table extraction via Camelot lattice/stream.
 - HTML preview plus downloadable HTML and JSON metadata per file.
 - Security controls: file-type enforcement, 25 MB limit (tunable), SlowAPI rate limiting, strict security headers.
@@ -121,6 +123,9 @@ huggingface-cli upload votre-username/genocr . --repo-type=space
 | --- | --- | --- |
 | `MAX_CONTENT_LENGTH` | `26214400` | Max upload size in bytes (per file). |
 | `APP_ORIGIN` | unset | Optional explicit CORS origin. |
+| `USE_PADDLE_OCR` | `true` | Use PaddleOCR for OCR (more accurate). Set to `false` to use only Tesseract. |
+| `PADDLE_OCR_LANG` | `fr` | PaddleOCR language (fr, en, ch, etc.). |
+| `PADDLE_OCR_GPU` | `false` | Enable GPU acceleration for PaddleOCR (requires CUDA). |
 | `USE_DEEP_TABLES` | `false` | Enable placeholder hook for deep table extraction. |
 | `SYNC_PIPELINE` | `false` | Run pipeline inline (useful for tests). |
 | `PORT` | `7860` | HTTP port inside the container. |
@@ -152,7 +157,8 @@ GenOCR peut être déployé gratuitement sur plusieurs plateformes:
 - Forkez le repo pour des déploiements personnalisés
 - Activez l'extraction deep-learning en modifiant `app/pipeline/__init__.py`
 - Ajoutez du stockage persistant avec Redis ou PostgreSQL
-- Intégrez d'autres modèles OCR (EasyOCR, PaddleOCR, etc.)
+- **PaddleOCR** est maintenant intégré par défaut avec fallback sur Tesseract
+- Configurez le moteur OCR via `USE_PADDLE_OCR`, `PADDLE_OCR_LANG`, et `PADDLE_OCR_GPU`
 
 ## Dépannage
 
@@ -160,8 +166,10 @@ GenOCR peut être déployé gratuitement sur plusieurs plateformes:
 | --- | --- |
 | `415 Unsupported Media Type` | Ensure files are PDF/PNG/JPG with proper mimetype. |
 | `413 Payload Too Large` | Lower file size or raise `MAX_CONTENT_LENGTH`. |
-| OCR errors | Confirm `ocrmypdf`, Tesseract, and Ghostscript are installed (see Dockerfile). |
+| OCR errors with PaddleOCR | Check PaddleOCR installation or set `USE_PADDLE_OCR=false` to use Tesseract only. |
+| OCR errors with Tesseract | Confirm `ocrmypdf`, Tesseract, and Ghostscript are installed (see Dockerfile). |
 | Camelot finds 0 tables | Try adjusting `USE_DEEP_TABLES` or supply higher-quality scans. |
+| PaddleOCR too slow | Enable GPU with `PADDLE_OCR_GPU=true` or switch to Tesseract with `USE_PADDLE_OCR=false`. |
 
 ## License
 
